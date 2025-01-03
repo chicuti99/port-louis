@@ -21,7 +21,10 @@ Docker
 
 
 ## Deploy
-use yarn ou npm para instalar as dependencias
+npm para instalar as dependencias
+```bash
+  npm install
+```
 
 Para fazer o deploy desse projeto rode
 
