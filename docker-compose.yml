@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  database_port_louis:
+    image: mysql:8.0
+    container_name: database_port_louis
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: port_louis
+      MYSQL_DATABASE: port_louis
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: port_louis
+    volumes:
+      - mysqldata:/var/lib/mysql
+    network_mode: host
+
+  app:
+    build: .
+    container_name: port_louis_container
+    volumes:
+      - .:/usr/app
+    network_mode: host
+
+volumes:
+  mysqldata:

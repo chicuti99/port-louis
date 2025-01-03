@@ -1,0 +1,314 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "API Documentation",
+      "description": "API REST desenvolvida para gerenciar usuários, habilidades e documentos.",
+      "version": "1.0.0",
+      "contact": {
+        "email": "arthurchicuti0@gmail.com"
+      }
+    },
+    "components": {
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+      },
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+    "paths": {
+      "/users": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "Create a user",
+          "description": "Criação de um novo usuário.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "birthdate": { "type": "string", "format": "date" },
+                    "email": { "type": "string", "format": "email" },
+                    "password": { "type": "string" }
+                  },
+                  "required": ["name", "birthdate", "email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "User created successfully." },
+            "400": { "description": "Validation error." },
+            "409": { "description": "Email already exists." }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "User login",
+          "description": "Realiza login e retorna um token JWT.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": { "type": "string", "format": "email" },
+                    "password": { "type": "string" }
+                  },
+                  "required": ["email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": { "description": "Login successful." },
+            "401": { "description": "Invalid credentials." }
+          }
+        }
+      },
+      "/users/documents": {
+        "post": {
+          "tags": ["User Documents"],
+          "summary": "Upload a user document",
+          "description": "Faz upload de um documento do usuário em formato PDF.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "file": { "type": "string", "format": "binary" }
+                  },
+                  "required": ["name", "file"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "Document uploaded successfully." },
+            "400": { "description": "Validation error." }
+          }
+        }
+      },
+      "/abilities": {
+        "post": {
+          "tags": ["Abilities"],
+          "summary": "Create an ability",
+          "description": "Criação de uma nova habilidade.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" }
+                  },
+                  "required": ["name"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "Ability created successfully." },
+            "400": { "description": "Validation error." }
+          }
+        },
+        "put": {
+          "tags": ["Abilities"],
+          "summary": "Update an ability",
+          "description": "Ativa ou desativa uma habilidade.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string", "format": "uuid" },
+                    "active": { "type": "boolean" }
+                  },
+                  "required": ["name", "active"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": { "description": "Ability updated successfully." },
+            "400": { "description": "Validation error." }
+          }
+        }
+      },
+      "/users/abilities": {
+        "post": {
+          "tags": ["User Abilities"],
+          "summary": "Relate a user to an ability",
+          "description": "Relaciona um usuário com uma habilidade existente.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": { "type": "string", "format": "uuid" },
+                    "abilityId": { "type": "string", "format": "uuid" },
+                    "yearsExperience": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["userId", "abilityId", "yearsExperience"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "User ability relation created successfully." },
+            "400": { "description": "Validation error." }
+          }
+        },
+        "delete": {
+          "tags": ["User Abilities"],
+          "summary": "Delete user abilities",
+          "description": "Remove uma ou mais habilidades relacionadas a um usuário.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ids": { "type": "array", "items": { "type": "string", "format": "uuid" } }
+                  },
+                  "required": ["ids"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": { "description": "User abilities deleted successfully." },
+            "400": { "description": "Validation error." }
+          }
+        },
+        "get": {
+          "tags": ["User Abilities"],
+          "summary": "List user abilities",
+          "description": "Lista as habilidades relacionadas ao usuário com paginação.",
+          "parameters": [
+            { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 } },
+            { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 10 } }
+          ],
+          "responses": {
+            "200": {
+              "description": "User abilities retrieved successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string", "format": "uuid" },
+                            "name": { "type": "string" },
+                            "email": { "type": "string", "format": "email" }
+                          }
+                        },
+                        "ability": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string", "format": "uuid" },
+                            "name": { "type": "string" }
+                          }
+                        },
+                        "yearsExperience": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/countries": {
+      "get": {
+        "summary": "Get country details",
+        "description": "Fetch details of a country by its name using the RestCountries API.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "The name of the country to search for.",
+            "schema": {
+              "type": "string",
+              "example": "brazil"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Country details fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "object",
+                        "properties": {
+                          "common": { "type": "string" },
+                          "official": { "type": "string" }
+                        }
+                      },
+                      "region": { "type": "string" },
+                      "population": { "type": "number" },
+                      "capital": {
+                        "type": "array",
+                        "items": { "type": "string" }
+                      }
+                    },
+                    "example": {
+                      "name": {
+                        "common": "Brazil",
+                        "official": "Federative Republic of Brazil"
+                      },
+                      "region": "Americas",
+                      "population": 212559409,
+                      "capital": ["Brasília"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid query parameter."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    }
+  
+    }
+  }
+  
