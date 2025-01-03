@@ -21,17 +21,29 @@ Docker
 
 
 ## Deploy
-use yarn ou npm para instalar as dependencias e crie um arquivo .env na raiz do projeto seguindo o modelo enviado por email,assim como o padrão de autenticação usado
+use yarn ou npm para instalar as dependencias
 
 Para fazer o deploy desse projeto rode
 
 ```bash
-  docker compose build
+  docker compose up --build
 ```
-logo apos rode
+logo apos rode o comando abaixo para entrar no mysql
 
 ```bash
-  docker compose up
+  docker exec -it database_port_louis mysql -u root -p
+```
+execute os seguintes comandos para conceder permissão ao usuario
+
+```bash
+  GRANT ALL PRIVILEGES ON *.* TO 'docker'@'%' WITH GRANT OPTION; 
+  FLUSH PRIVILEGES;
+```
+
+após isso,execute o seguinte comando
+
+```bash
+  npx prisma migrate dev --name init
 ```
 
 

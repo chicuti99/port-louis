@@ -19,6 +19,4 @@ EXPOSE 3000
 CMD ["nodemon", "--watch", ".", "--exec", "npm run dev"]
 
 
-# docker exec -it database_port_louis mysql -u docker -p
-# GRANT ALL PRIVILEGES ON *.* TO 'docker'@'%' WITH GRANT OPTION;
-# FLUSH PRIVILEGES;
+

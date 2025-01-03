@@ -8,7 +8,7 @@ class DeletarGrupoController {
         const {id} = request.params
         const deletarGrupoUseCase = container.resolve(DeletarGrupoUseCase);
         await deletarGrupoUseCase.execute({id:parseInt(id,10)})
-        return response.send().status(204)
+        return response.status(204).send()
     }
 }
 

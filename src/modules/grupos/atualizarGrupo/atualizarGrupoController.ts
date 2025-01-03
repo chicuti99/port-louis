@@ -9,7 +9,8 @@ class AtualizarGrupoController{
         const{id} = request.params
 
         const atualizarGrupoUseCase = container.resolve(AtualizarGrupoUseCase)
-        const grupoAtualizado = atualizarGrupoUseCase.execute({id:parseInt(id,10),nome})
+        const grupoAtualizado =await atualizarGrupoUseCase.execute({id:parseInt(id,10),nome})
+        console.log(grupoAtualizado)
         return response.send(grupoAtualizado).status(200)
     }
 }

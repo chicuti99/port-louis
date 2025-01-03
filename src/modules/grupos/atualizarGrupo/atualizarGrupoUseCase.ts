@@ -10,7 +10,7 @@ class AtualizarGrupoUseCase{
     async execute({id,nome}:IRequest){
 
         const prisma = new PrismaClient();
-        const grupoJaCriado = prisma.grupo.findUnique({
+        const grupoJaCriado = await prisma.grupo.findUnique({
             where:{id}
         })
 
@@ -18,7 +18,7 @@ class AtualizarGrupoUseCase{
             throw new AppError('Grupo não existe')
         }
 
-        const grupoCriado = prisma.grupo.update({
+        const grupoCriado = await prisma.grupo.update({
             where: {id},
             data:{
                 nome

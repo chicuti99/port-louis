@@ -9,7 +9,7 @@ class DeletarContatoController {
         
         const deletarContatoUseCase = container.resolve(DeletarContatoUseCase);
         await deletarContatoUseCase.execute({id:parseInt(id,10)})
-        return response.send().status(204);
+        return response.status(204).send();
     }
 }
 

@@ -11,13 +11,13 @@ const grupoRouter = Router();
 
 
 const criarGruposController = new CriarGrupoController();
-grupoRouter.post("/grupo",criarGruposController.handle);
+grupoRouter.post("/grupo",criarGruposController.handle); 
 
 const atualizarGrupoController = new AtualizarGrupoController();
-grupoRouter.patch("/grupo/:id",atualizarGrupoController.handle);
+grupoRouter.patch("/grupo/:id",atualizarGrupoController.handle); 
 
 const deletarGrupoController = new DeletarGrupoController()
-grupoRouter.delete("/grupo/:id",deletarGrupoController.handle)
+grupoRouter.delete("/grupo/:id",deletarGrupoController.handle) 
 
 const adicionarContatoController = new AdicionarContatoController();
 grupoRouter.post("/grupo/adicionar",adicionarContatoController.handle);

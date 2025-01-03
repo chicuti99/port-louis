@@ -8,7 +8,7 @@ class CriarGrupoController {
         const {nome} = request.body;
         const criarGrupoUseCase = container.resolve(CriarGrupoUseCase);
         const grupo = await criarGrupoUseCase.execute({nome})
-        return response.send(grupo).status(200)
+        return response.status(201).send(grupo)
     }
 }
 
