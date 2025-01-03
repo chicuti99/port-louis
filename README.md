@@ -28,7 +28,7 @@ Para fazer o deploy desse projeto rode
 ```bash
   docker compose up --build
 ```
-logo apos rode o comando abaixo para entrar no mysql
+logo apos rode o comando abaixo para entrar no mysql e use essa senha para logar: port_louis
 
 ```bash
   docker exec -it database_port_louis mysql -u root -p
