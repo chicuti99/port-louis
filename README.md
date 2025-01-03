@@ -40,8 +40,12 @@ execute os seguintes comandos para conceder permissão ao usuario
   FLUSH PRIVILEGES;
 ```
 
-após isso,execute o seguinte comando
+após isso,digite o comando abaixo para sair do mysql 
 
+```bash
+  exit
+```
+execute o seguinte comando para criar as tabelas
 ```bash
   npx prisma migrate dev --name init
 ```
